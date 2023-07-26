@@ -11,10 +11,23 @@ import { HASH_TO_TEST } from './constants';
 import { gatewayHostname } from './gatewayHostname';
 const log = new Log('GatewayNode');
 class GatewayNode extends UiComponent /* implements Checkable */ {
+    parent;
+    // tag: Tag
+    status;
+    cors;
+    ipns;
+    origin;
+    trustless;
+    link;
+    flag;
+    took;
+    gateway;
+    index;
+    checkingTime;
+    atLeastOneSuccess = false;
     constructor(parent, gateway, index) {
         super(parent, 'div', 'Node');
         this.parent = parent;
-        this.atLeastOneSuccess = false;
         this.tag.empty();
         this.tag.style.order = Date.now().toString();
         this.status = new Status(this);
@@ -54,7 +67,7 @@ class GatewayNode extends UiComponent /* implements Checkable */ {
             this.cors.check().then(() => { log.debug(this.gateway, 'CORS success'); }).then(this.onSuccessfulCheck.bind(this)),
             this.ipns.check().then(() => { log.debug(this.gateway, 'IPNS success'); }).then(this.onSuccessfulCheck.bind(this)),
             this.origin.check().then(() => { log.debug(this.gateway, 'Origin success'); }).then(this.onSuccessfulCheck.bind(this)),
-            this.trustless.check().then(() => { log.debug(this.gateway, 'Trustless success'); }).then(this.onSuccessfulCheck.bind(this))
+            this.trustless.check().then(() => { log.debug(this.gateway, 'Trustless success'); }).then(this.onSuccessfulCheck.bind(this)),
         ];
         // we care only about the fastest method to return a success
         // Promise.race(onlineChecks).catch((err) => {

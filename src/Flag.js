@@ -5,6 +5,12 @@ import { UiComponent } from './UiComponent';
 import { DEFAULT_IPFS_GATEWAY } from './constants';
 const log = new Log('Flag');
 class Flag extends UiComponent {
+    parent;
+    hostname;
+    /**
+     */
+    static googleLimiter = new TokenBucketLimiter({ bucketSize: 1, tokensPerInterval: 1, interval: 1000 * 2, stopped: true });
+    static cloudFlareLimiter = new TokenBucketLimiter({ bucketSize: 1, tokensPerInterval: 1, interval: 1000 * 2, stopped: true });
     constructor(parent, hostname) {
         super(parent, 'div', 'Flag');
         this.parent = parent;
@@ -56,7 +62,7 @@ class Flag extends UiComponent {
                 if (tokenAvailable) {
                     return `https://cloudflare-dns.com/dns-query?name=${this.hostname}&type=A`;
                 }
-            })
+            }),
         ]);
         if (url == null) {
             // No available tokens...
@@ -72,8 +78,8 @@ class Flag extends UiComponent {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    Accept: 'application/dns-json'
-                }
+                    Accept: 'application/dns-json',
+                },
             });
             const responseJson = await response.json();
             await this.handleDnsQueryResponse(responseJson);
@@ -127,9 +133,5 @@ class Flag extends UiComponent {
         this.tag.empty(); // remove textContent icon since we're using a background image
     }
 }
-/**
- */
-Flag.googleLimiter = new TokenBucketLimiter({ bucketSize: 1, tokensPerInterval: 1, interval: 1000 * 2, stopped: true });
-Flag.cloudFlareLimiter = new TokenBucketLimiter({ bucketSize: 1, tokensPerInterval: 1, interval: 1000 * 2, stopped: true });
 export { Flag };
 //# sourceMappingURL=Flag.js.map
