@@ -9,7 +9,6 @@ export default [
     'https://cloudflare-ipfs.com/ipfs/:hash',
     'https://astyanax.io/ipfs/:hash',
     'https://cf-ipfs.com/ipfs/:hash',
-    'https://ipns.co/ipfs/:hash',
     'https://gateway.originprotocol.com/ipfs/:hash',
     'https://gateway.pinata.cloud/ipfs/:hash',
     'https://ipfs.sloppyta.co/ipfs/:hash',
@@ -84,5 +83,6 @@ export default [
     'https://ipfs.soul-network.com/ipfs/:hash',
     'https://ipfs.twdragon.net/ipfs/:hash',
     'https://getipfs.com/ipfs/:hash',
+    'https://storage.web3ph.dev/gw/:hash',
 ];
 //# sourceMappingURL=gateways.js.map
